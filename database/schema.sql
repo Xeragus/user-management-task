@@ -53,3 +53,10 @@ INSERT INTO `users` (`id`, `name`, `email`, `city`, `created_at`) VALUES
 ALTER TABLE users MODIFY email VARCHAR(255) NOT NULL;
 ALTER TABLE users ADD UNIQUE INDEX idx_unique_email (email);
 ALTER TABLE users ADD phone_number VARCHAR(20);
+
+ALTER TABLE users ENGINE=InnoDB;
+
+ALTER TABLE users MODIFY city VARCHAR(255) NOT NULL;
+-- cutting a corner for simplicity here, maybe the FULLTEXT index is better for contains queries
+-- but a bit more complicated for set up, also cities search is usually okay to not be contains query IMO
+ALTER TABLE users ADD INDEX idx_city(city);

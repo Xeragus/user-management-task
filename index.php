@@ -26,5 +26,6 @@ $app->renderView('index', array(
 	'page' => $page,
 	'totalPages' => $totalPages,
     'app' => $app,
-    'csrfToken' => $csrfToken
+    'csrfToken' => $csrfToken,
+    'searchTerm' => ''
 ));

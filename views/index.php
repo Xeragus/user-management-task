@@ -1,3 +1,4 @@
+
 <h1 class="text-center" id="app-title">User Management</h1>
 
 <div class="text-right mb-3">
@@ -5,12 +6,18 @@
 	Create User
   </button>
 </div>
+
+<div class="mb-5">
+  <input type="text" name="search" id="search-input" class="form-control" placeholder="Search by city..." value="<?= htmlspecialchars($searchTerm) ?>">
+</div>
+
 <div id="user-table-wrapper" class="mb-5 mt-5">
   <?php $app->renderPartial('partials/users_table', [
     'users' => $users,
     'page' => $page,
     'totalPages' => $totalPages,
-	'csrfToken' => $csrfToken
+	'csrfToken' => $csrfToken,
+	'searchTerm' => $searchTerm
   ]); ?>
 </div>
 
@@ -109,8 +116,8 @@
 <script>
 	let currentPage = 1;
 
-	function loadTable(page = 1) {
-		$.get('users_table.php', { page: page }, function(html) {
+	function loadTable(page = 1, searchTerm = '') {
+		$.get('users_table.php', { page: page, search_term: searchTerm }, function(html) {
 			$('#user-table-wrapper').html(html);
 		});
 	}
@@ -173,13 +180,26 @@
 				}
 			});
 		});
+
+		let searchDebounceTimer = null;
+		$('#search-input').on('input', function () {
+			clearTimeout(searchDebounceTimer);
+
+			const term = $(this).val().trim();
+
+			searchDebounceTimer = setTimeout(() => {
+				const query = (term.length >= 3) ? term : '';
+				loadTable(1, query); // reset to page 1 on new search
+			}, 300); // 300ms debounce
+		});
 	});
 
 	$(document).on('click', '.page-link', function(e) {
 		e.preventDefault();
 		const page = $(this).data('page');
 		currentPage = page;
-		loadTable(page);
+		const search = $('#search-input').val().trim();
+		loadTable(page, search.length >= 3 ? search : '');
 	});
 
 	$(document).on('click', '.update-user', function() {
@@ -221,5 +241,4 @@
 			showToast('Failed to delete user.');
 		});
 	});
-
 </script>

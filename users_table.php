@@ -6,15 +6,23 @@
 $app = require "./core/app.php";
 require_once './core/csrf.php';
 
+$searchTerm = trim($_GET['search_term'] ?? '');
 $page = max(1, intval($_GET['page'] ?? 1));
 $perPage = 10;
 $offset = ($page - 1) * $perPage;
 
 // Fetch data
-$users = User::find($app->db, '*', [], ['id' => 'DESC'], [$offset, $perPage]);
+$conditions = '';
+if ($searchTerm !== '') {
+    $escaped = BaseModel::escapeValue("$searchTerm%");
+    $conditions = "WHERE city LIKE $escaped";
+}
+$query = "SELECT * FROM users $conditions ORDER BY id DESC LIMIT $offset, $perPage";
+$users = User::sql($app->db, $query);
 
-$stmt = $app->db->query("SELECT COUNT(*) AS total FROM users");
-$totalUsers = $stmt[0]['total'];
+$countQuery = "SELECT COUNT(*) AS total FROM users $conditions";
+$countResult = $app->db->query($countQuery);
+$totalUsers = $countResult[0]['total'];
 $totalPages = ceil($totalUsers / $perPage);
 $csrfToken = getCsrfToken();
 
@@ -23,5 +31,6 @@ $app->renderPartial('partials/users_table', [
     'users' => $users,
     'page' => $page,
     'totalPages' => $totalPages,
-    'csrfToken' => $csrfToken
+    'csrfToken' => $csrfToken,
+    'searchTerm' => $searchTerm
 ]);
