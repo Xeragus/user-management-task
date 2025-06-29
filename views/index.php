@@ -1,15 +1,17 @@
 
 <h1 class="text-center" id="app-title">User Management</h1>
 
-<div class="text-right mb-3">
+<div class="text-right mb-5">
   <button class="btn btn-success" data-toggle="modal" data-target="#createUserModal">
 	Create User
   </button>
 </div>
 
-<div class="mb-5">
+<div class="mb-5 mt-5">
   <input type="text" name="search" id="search-input" class="form-control" placeholder="Search by city..." value="<?= htmlspecialchars($searchTerm) ?>">
 </div>
+
+<div class="loader"></div>
 
 <div id="user-table-wrapper" class="mb-5 mt-5">
   <?php $app->renderPartial('partials/users_table', [
@@ -117,8 +119,11 @@
 	let currentPage = 1;
 
 	function loadTable(page = 1, searchTerm = '') {
+		$('#user-table-wrapper').html('');
+		$('.loader').show();
 		$.get('users_table.php', { page: page, search_term: searchTerm }, function(html) {
 			$('#user-table-wrapper').html(html);
+			$('.loader').hide();
 		});
 	}
 
