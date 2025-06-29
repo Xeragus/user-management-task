@@ -7,7 +7,8 @@ require_once './core/csrf.php';
 
 if (!verifyCsrfToken($_POST['csrf_token'] ?? '')) {
   http_response_code(401);
-  echo json_encode(['success' => false, 'message' => 'Unauthorized access']);
+  // Here you would also log the violation
+  echo json_encode(['success' => false, 'message' => 'Error happened. Contact support.']);
   exit;
 }
 

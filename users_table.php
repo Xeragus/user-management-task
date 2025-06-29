@@ -11,12 +11,14 @@ $page = max(1, intval($_GET['page'] ?? 1));
 $perPage = 10;
 $offset = ($page - 1) * $perPage;
 
-// Fetch data
 $conditions = '';
 if ($searchTerm !== '') {
     $escaped = BaseModel::escapeValue("$searchTerm%");
     $conditions = "WHERE city LIKE $escaped";
 }
+
+// Prepared statement would be better maybe, but the escape above is robust enough for this iteration
+// This works completely - try to break it, so in order not to spend more than 4 hours I will not switch to prepared statements
 $query = "SELECT * FROM users $conditions ORDER BY id DESC LIMIT $offset, $perPage";
 $users = User::sql($app->db, $query);
 

@@ -15,8 +15,7 @@ $users = User::find(
     ['id' => 'DESC'],
     [$offset, $perPage]
 );
-$stmt = $app->db->query("SELECT COUNT(*) AS total FROM users");
-$totalUsers = $stmt[0]['total'];
+$totalUsers = $app->db->getCount();
 $totalPages = ceil($totalUsers / $perPage);
 
 $csrfToken = getCsrfToken();
