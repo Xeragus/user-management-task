@@ -50,7 +50,11 @@ class App {
 		// Render $content in layout
 		include './views/layout.php';
 	}
-	
+
+	public function renderPartial($view, $data = []) {
+		extract($data);
+		include './views/' . $view . '.php';
+	}
 }
 
 return new App();

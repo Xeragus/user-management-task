@@ -272,7 +272,7 @@ class BaseModel {
 			// Overwrite current field values with given data
 			$this->setFields($data);
 			$dataString = self::buildUpdateData($this->fields);
-			$query = "UPDATE `"."` SET ".$dataString." WHERE `id` = ".$this->id;
+			$query = "UPDATE `".static::tableName."` SET ".$dataString." WHERE `id` = ".$this->id;
 			$this->db->query($query);
 		}
 	}

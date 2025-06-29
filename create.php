@@ -1,15 +1,35 @@
 <?php
 
 $app = require "./core/app.php";
+require './core/table_renderer.php';
+require './core/user_validator.php';
+require_once './core/csrf.php';
 
-// Create new instance of user
+if (!verifyCsrfToken($_POST['csrf_token'] ?? '')) {
+    http_response_code(401);
+    echo json_encode(['success' => false, 'message' => 'Unauthorized access']);
+    exit;
+}
+
+$errors = validateUserInput($_POST, $app->db);
+if (!empty($errors)) {
+	http_response_code(422);
+	echo json_encode(['success' => false, 'errors' => $errors]);
+	exit;
+}
+
 $user = new User($app->db);
-// Insert it to database with POST data
+
 $user->insert(array(
 	'name' => $_POST['name'],
 	'email' => $_POST['email'],
-	'city' => $_POST['city']
+	'city' => $_POST['city'],
+	'phone_number' => $_POST['phone_number']
 ));
 
-// Redirect back to index
-header('Location: index.php');
+echo json_encode([
+    'success' => true,
+    'html' => renderTablePartial($app)
+]);
+
+exit;
