@@ -235,10 +235,10 @@
 		const csrf_token = $(this).data('csrf');
 
 		// Used POST instead of DELETE for simplicity
-		$.post('delete.php', { id: id, csrf_token: csrf_token }, function(response) {
+		$.post('delete.php', { id: id, csrf_token: csrf_token, page: page }, function(response) {
 			if (response.success) {
 				showToast('User deleted.');
-				loadTable(page); // Refresh table via AJAX
+				$('#user-table-wrapper').html(response.html);
 			} else {
 				showToast('Failed to delete user.');
 			}
