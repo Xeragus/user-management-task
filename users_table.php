@@ -5,6 +5,7 @@
 
 $app = require "./core/app.php";
 require_once './core/csrf.php';
+require_once './core/security_headers.php';
 
 $searchTerm = trim($_GET['search_term'] ?? '');
 $page = max(1, intval($_GET['page'] ?? 1));

@@ -1,8 +1,8 @@
 # PHP Test Project
 
 ### The priorities
-1. Having robust security against common vulnerabilities: XSS, CSRF, SQLi
-2. Having great UI/UX: Live search, smooth SPA-like experience
+1. Implementing robust security against common vulnerabilities (XSS, CSRF, SQLi, Clickjacking) using secure code practices and HTTP security headers 
+2. Providing great UI/UX: Live search, smooth SPA-like experience
 
 ### The trade-oofs
 1. In the code there are few comments of places where code could have been extracted to a partial, or DRY-ied up. All those places are noted, and can be polished to perfection easily. Since I didn't want to spend more than 4 hours, I didn't do it now.

@@ -2,6 +2,7 @@
 
 $app = require "./core/app.php";
 require_once './core/csrf.php';
+require_once './core/security_headers.php';
 
 # Pagination not fully DRY, will skip a corner here to stay under 4h
 $page = isset($_GET['page']) ? max(1, intval($_GET['page'])) : 1;

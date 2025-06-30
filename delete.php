@@ -2,6 +2,7 @@
 
 $app = require './core/app.php';
 require './core/table_renderer.php';
+require_once './core/security_headers.php';
 require_once './core/csrf.php';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['id'])) {

@@ -4,6 +4,7 @@ $app = require './core/app.php';
 require './core/table_renderer.php';
 require './core/user_validator.php';
 require_once './core/csrf.php';
+require_once './core/security_headers.php';
 
 if (!verifyCsrfToken($_POST['csrf_token'] ?? '')) {
   http_response_code(401);
