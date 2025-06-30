@@ -57,7 +57,3 @@
     /* fixes the modal open flicker and layout shift */
     margin-right: 0px!important;
 }
-
-#app-title {
-    margin: 35px 0 45px 0;
-}
