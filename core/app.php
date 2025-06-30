@@ -6,6 +6,18 @@ foreach (glob(dirname(__FILE__).'/../models/*.php') as $filename){
 	require $filename;
 }
 
+// Used for local development
+require_once dirname(__DIR__) . '/vendor/autoload.php';
+
+$dotenv = Dotenv\Dotenv::createImmutable(dirname(__DIR__));
+$dotenv->safeLoad();
+
+foreach ($_ENV as $key => $value) {
+    if (is_scalar($value)) {
+        putenv("$key=$value");
+    }
+}
+
 /**
  * App
  * provides interface for database manipulation, accessing config and rendering views

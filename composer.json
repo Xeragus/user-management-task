@@ -1,4 +1,6 @@
 {
     "name": "boban/user-management-app",
-    "require": {}
+    "require": {
+        "vlucas/phpdotenv": "^5.6"
+    }
 }

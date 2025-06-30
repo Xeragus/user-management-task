@@ -1,4 +1,4 @@
 .settings
 .project
-/config/database.php
 /vendor/
+.env
